@@ -2,7 +2,7 @@
  * User: eldad.Dor
  * Date: 07/10/13 12:20
  */
-package com.idi.astro.server.spring;
+package com.bargate.axis.conversion;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.core.convert.converter.Converter;
@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
-@Component
+@Component(value = "NumberToEnumConverterFactory")
 public class NumberToEnumConverterFactory implements ConverterFactory<Number, Enum<?>> {
 
 	@Override
@@ -33,8 +34,7 @@ public class NumberToEnumConverterFactory implements ConverterFactory<Number, En
 		public T convert(Number source) {
 			if (NumberUtils.isNumber(String.valueOf(source))) {
 				try {
-					final String enumFieldFromInstance = findEnumFieldFromInstance(source);
-					return ((T) Enum.valueOf(this.numberType,enumFieldFromInstance));
+					return (T) findEnumFieldFromInstance(source);
 				} catch (Throwable throwable) {
 					return null;
 				}
@@ -44,21 +44,21 @@ public class NumberToEnumConverterFactory implements ConverterFactory<Number, En
 		}
 
 
-		private String findEnumFieldFromInstance(Number source) {
+		private Enum findEnumFieldFromInstance(Number source) throws Throwable {
 			for (final Field field : numberType.getFields()) {
-				try {
-					final Object number = ReflectionUtils.invokeMethod(numberType.getDeclaredMethods()[0],getInstance(field.getName(), numberType));
-					if (number.toString().equals(String.valueOf(source).trim())) {
-						return field.getName();
-					}
-				} catch (Throwable throwable) {
+				final Enum instance = getInstance(field.getName(), numberType);
+				final Object number = ReflectionUtils.invokeMethod(numberType.getDeclaredMethods()[0], instance);
+				final Method method = number.getClass().getComponentType().getMethod("getValue");
+				final Object enumValue = ReflectionUtils.invokeMethod(method, instance);
+				if (enumValue.toString().equals(String.valueOf(source).trim())) {
+					return instance;
 				}
 			}
-			return "";
+			return null;
 		}
 
-		public <T extends Enum<T>> T getInstance(final String value, final Class<T> enumClass) {
-			return Enum.valueOf(enumClass, value);
+		public <E extends Enum<E>> E getInstance(final String value, final Class<T> enumClass) {
+			return (E) Enum.valueOf(enumClass, value);
 		}
 
 	}

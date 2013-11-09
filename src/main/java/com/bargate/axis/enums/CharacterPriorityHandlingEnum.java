@@ -12,23 +12,23 @@ package com.bargate.axis.enums;
 /**
  *
  */
-public enum AstroPriorityHandlingEnum {
+public enum CharacterPriorityHandlingEnum {
 
-	HIGH_ONLY(1), LOW_ONLY(0), HIGH_LOW(2);
+	THE_GOOD(1), THE_BAD(0), THE_UGLY(2);
 	private int value;
 
-	AstroPriorityHandlingEnum(int priority) {
+	CharacterPriorityHandlingEnum(int priority) {
 		this.value = priority;
 	}
 
-	public static AstroPriorityHandlingEnum getPriorityHandlingEnum(int priority) {
+	public static CharacterPriorityHandlingEnum getPriorityHandlingEnum(int priority) {
 		switch (priority) {
 			case 1:
-				return HIGH_ONLY;
+				return THE_GOOD;
 			case 0:
-				return LOW_ONLY;
+				return THE_BAD;
 			case 2:
-				return HIGH_LOW;
+				return THE_UGLY;
 		}
 		return null;
 	}
