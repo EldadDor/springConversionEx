@@ -1,12 +1,7 @@
 /*
  * User: eldad.Dor
  * Date: 07/10/13 10:42
- 
- *
- * Copyright (2005) IDI. All rights reserved.
- * This software is a proprietary information of Israeli Direct Insurance.
- * Created by IntelliJ IDEA. 
- */
+*/
 package com.bargate.axis.enums;
 
 /**

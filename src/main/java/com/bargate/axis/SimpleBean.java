@@ -1,14 +1,11 @@
+/*
+ * User: eldad.Dor
+ * Date: 08/10/13 10:42
+*/
 package com.bargate.axis;
 
 import com.bargate.axis.enums.CharacterPriorityHandlingEnum;
 
-/**
- * Created with IntelliJ IDEA.
- * User: EAD-MASTER
- * Date: 11/9/13
- * Time: 2:35 PM
- * To change this template use File | Settings | File Templates.
- */
 public class SimpleBean {
 
 	private CharacterPriorityHandlingEnum characterPriorityHandlingEnum;
